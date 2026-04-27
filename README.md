@@ -81,5 +81,6 @@ Output files are stored separately in `ref_output`.
 
 Reference
 ---------
-
-S.-H. Jang, GoodRegressor: A General-Purpose Symbolic Regression Framework for Physically Interpretable Materials Modeling, arXiv:2510.18325
+Jang, S.-H., Kiyohara, S., Takamura, H. & Kumagai, Y. Charting the Landscape of Oxygen Ion Conductors: A 60-Year Dataset with Interpretable Regression Models. Sci Data (2026). https://doi.org/10.1038/s41597-026-07100-x
+Jang, S.-H. GoodRegressor: A Hierarchical Inductive Bias for Navigating High-Dimensional Compositional Space, arXiv:2510.18325 
+https://doi.org/10.48550/arXiv.2510.18325
