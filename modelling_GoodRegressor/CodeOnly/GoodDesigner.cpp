@@ -241,7 +241,7 @@ typedef struct {
 
 	std::string name;
 	std::vector<int> which_regtype;
-	std::vector<long double> v_list, regressed_v_list, regressed_stddv_v_list;
+	std::vector<long double> v_list, regressed_v_list, regressed_stddv_v_list, regressed_post_v_list;
 	long double v_ave, v_stddv;
 	bool user_defined_v_ave;
 	bool user_defined_v_stddv;
@@ -397,83 +397,93 @@ std::vector<long double> floating_v, floating_v_max, floating_v_min;
 
 std::string sbuf;
 long double ldbuf;
-std::ifstream readpara, readatomdat, readstrdat, readmatdat, readreg, readregchain, readbpregressor, readfuncchain, readmapout, readface, readanalysis;
+std::ifstream readpara, readatomdat, readstrdat, readmatdat, readreg, readregchain, readbpregressor, readfuncchain, readmapout, readface, readanalysis, readanalysisR, readnb;
 std::ofstream writeoutput, writeanalysis, writeanalysis_second, writeonevtest, writezc, writezcext, writelatex, writemathematica;
 
+bool chk_eql(long double v, long double crit) {
+
+	if (fabsl(v - crit) / crit < 0.001) {
+		return true;
+	}
+	else {
+		return false;
+	}
+
+}
 
 std::string get_addstring(long double* addv) {
 
 	std::string addstr;
-	if (*addv == -0.05) {
+	if (chk_eql(*addv, -0.05)) {
 		addstr = "-\\frac{1}{20}";
 	}
-	else if (*addv == -0.1) {
+	else if (chk_eql(*addv, -0.1)) {
 		addstr = "-\\frac{1}{10}";
 	}
-	else if (*addv == -0.5) {
+	else if (chk_eql(*addv, -0.5)) {
 		addstr = "-\\frac{1}{2}";
 	}
-	else if (*addv == -0.875) {
+	else if (chk_eql(*addv, -0.875)) {
 		addstr = "-\\frac{7}{8}";
 	}
-	else if (*addv == -1.0) {
+	else if (chk_eql(*addv, -1.0)) {
 		addstr = "-1";
 	}
-	else if (*addv == -5.0) {
+	else if (chk_eql(*addv, -5.0)) {
 		addstr = "-5";
 	}
-	else if (*addv == -10.0) {
+	else if (chk_eql(*addv, -10.0)) {
 		addstr = "-10";
 	}
-	else if (*addv == -50.0) {
+	else if (chk_eql(*addv, -50.0)) {
 		addstr = "-50";
 	}
-	else if (*addv == -100.0) {
+	else if (chk_eql(*addv, -100.0)) {
 		addstr = "-100";
 	}
-	else if (*addv == -1000.0) {
+	else if (chk_eql(*addv, -1000.0)) {
 		addstr = "-1000";
 	}
-	else if (*addv == -5000.0) {
+	else if (chk_eql(*addv, -5000.0)) {
 		addstr = "-5000";
 	}
-	else if (*addv == -10000.0) {
+	else if (chk_eql(*addv, -10000.0)) {
 		addstr = "-10000";
 	}
-	else if (*addv == 0.05) {
+	else if (chk_eql(*addv, 0.05)) {
 		addstr = "+\\frac{1}{20}";
 	}
-	else if (*addv == 0.1) {
+	else if (chk_eql(*addv, 0.1)) {
 		addstr = "+\\frac{1}{10}";
 	}
-	else if (*addv == 0.5) {
+	else if (chk_eql(*addv, 0.5)) {
 		addstr = "+\\frac{1}{2}";
 	}
-	else if (*addv == 0.875) {
+	else if (chk_eql(*addv, 0.875)) {
 		addstr = "+\\frac{7}{8}";
 	}
-	else if (*addv == 1.0) {
+	else if (chk_eql(*addv, 1.0)) {
 		addstr = "+1";
 	}
-	else if (*addv == 5.0) {
+	else if (chk_eql(*addv, 5.0)) {
 		addstr = "+1";
 	}
-	else if (*addv == 10.0) {
+	else if (chk_eql(*addv, 10.0)) {
 		addstr = "+10";
 	}
-	else if (*addv == 50.0) {
+	else if (chk_eql(*addv, 50.0)) {
 		addstr = "+50";
 	}
-	else if (*addv == 100.0) {
+	else if (chk_eql(*addv, 100.0)) {
 		addstr = "+100";
 	}
-	else if (*addv == 1000.0) {
+	else if (chk_eql(*addv, 1000.0)) {
 		addstr = "+1000";
 	}
-	else if (*addv == 5000.0) {
+	else if (chk_eql(*addv, 5000.0)) {
 		addstr = "+5000";
 	}
-	else if (*addv == 10000.0) {
+	else if (chk_eql(*addv, 10000.0)) {
 		addstr = "+10000";
 	}
 	else {
@@ -493,76 +503,76 @@ std::string get_addstring(long double* addv) {
 std::string get_addstringM(long double* addv) {
 
 	std::string addstr;
-	if (*addv == -0.05) {
+	if (chk_eql(*addv, -0.05)) {
 		addstr = "-1/20";
 	}
-	else if (*addv == -0.1) {
+	else if (chk_eql(*addv, -0.1)) {
 		addstr = "-1/10";
 	}
-	else if (*addv == -0.5) {
+	else if (chk_eql(*addv, -0.5)) {
 		addstr = "-1/2";
 	}
-	else if (*addv == -0.875) {
+	else if (chk_eql(*addv, -0.875)) {
 		addstr = "-7/8";
 	}
-	else if (*addv == -1.0) {
+	else if (chk_eql(*addv, -1.0)) {
 		addstr = "-1";
 	}
-	else if (*addv == -5.0) {
+	else if (chk_eql(*addv, -5.0)) {
 		addstr = "-5";
 	}
-	else if (*addv == -10.0) {
+	else if (chk_eql(*addv, -10.0)) {
 		addstr = "-10";
 	}
-	else if (*addv == -50.0) {
+	else if (chk_eql(*addv, -50.0)) {
 		addstr = "-50";
 	}
-	else if (*addv == -100.0) {
+	else if (chk_eql(*addv, -100.0)) {
 		addstr = "-100";
 	}
-	else if (*addv == -1000.0) {
+	else if (chk_eql(*addv, -1000.0)) {
 		addstr = "-1000";
 	}
-	else if (*addv == -5000.0) {
+	else if (chk_eql(*addv, -5000.0)) {
 		addstr = "-5000";
 	}
-	else if (*addv == -10000.0) {
+	else if (chk_eql(*addv, -10000.0)) {
 		addstr = "-10000";
 	}
-	else if (*addv == 0.05) {
+	else if (chk_eql(*addv, 0.05)) {
 		addstr = "+1/20";
 	}
-	else if (*addv == 0.1) {
+	else if (chk_eql(*addv, 0.1)) {
 		addstr = "+1/10";
 	}
-	else if (*addv == 0.5) {
+	else if (chk_eql(*addv, 0.5)) {
 		addstr = "+1/2";
 	}
-	else if (*addv == 0.875) {
+	else if (chk_eql(*addv, 0.875)) {
 		addstr = "+7/8";
 	}
-	else if (*addv == 1.0) {
+	else if (chk_eql(*addv, 1.0)) {
 		addstr = "+1";
 	}
-	else if (*addv == 5.0) {
+	else if (chk_eql(*addv, 5.0)) {
 		addstr = "+1";
 	}
-	else if (*addv == 10.0) {
+	else if (chk_eql(*addv, 10.0)) {
 		addstr = "+10";
 	}
-	else if (*addv == 50.0) {
+	else if (chk_eql(*addv, 50.0)) {
 		addstr = "+50";
 	}
-	else if (*addv == 100.0) {
+	else if (chk_eql(*addv, 100.0)) {
 		addstr = "+100";
 	}
-	else if (*addv == 1000.0) {
+	else if (chk_eql(*addv, 1000.0)) {
 		addstr = "+1000";
 	}
-	else if (*addv == 5000.0) {
+	else if (chk_eql(*addv, 5000.0)) {
 		addstr = "+5000";
 	}
-	else if (*addv == 10000.0) {
+	else if (chk_eql(*addv, 10000.0)) {
 		addstr = "+10000";
 	}
 	else {
@@ -582,43 +592,43 @@ std::string get_addstringM(long double* addv) {
 std::string get_powerstring(long double* powv) {
 
 	std::string powvstr;
-	if (*powv == -0.5) {
+	if (chk_eql(*powv, -0.5)) {
 		powvstr = "-\\frac{1}{2}";
 	}
-	else if (*powv == 0.5) {
+	else if (chk_eql(*powv, 0.5)) {
 		powvstr = "\\frac{1}{2}";
 	}
-	else if (*powv == -0.333333) {
+	else if (chk_eql(*powv, -0.333333)) {
 		powvstr = "-\\frac{1}{3}";
 	}
-	else if (*powv == 0.333333) {
+	else if (chk_eql(*powv, 0.333333)) {
 		powvstr = "\\frac{1}{3}";
 	}
-	else if (*powv == -1.0) {
+	else if (chk_eql(*powv, -1.0)) {
 		powvstr = "-1";
 	}
-	else if (*powv == -2.0) {
+	else if (chk_eql(*powv, -2.0)) {
 		powvstr = "-2";
 	}
-	else if (*powv == 2.0) {
+	else if (chk_eql(*powv, 2.0)) {
 		powvstr = "2";
 	}
-	else if (*powv == -3.0) {
+	else if (chk_eql(*powv, -3.0)) {
 		powvstr = "-3";
 	}
-	else if (*powv == 3.0) {
+	else if (chk_eql(*powv, 3.0)) {
 		powvstr = "3";
 	}
-	else if (*powv == -4.0) {
+	else if (chk_eql(*powv, -4.0)) {
 		powvstr = "-4";
 	}
-	else if (*powv == 4.0) {
+	else if (chk_eql(*powv, 4.0)) {
 		powvstr = "4";
 	}
-	else if (*powv == -5.0) {
+	else if (chk_eql(*powv, -5.0)) {
 		powvstr = "-5";
 	}
-	else if (*powv == 5.0) {
+	else if (chk_eql(*powv, 5.0)) {
 		powvstr = "5";
 	}
 	else {
@@ -632,43 +642,43 @@ std::string get_powerstring(long double* powv) {
 std::string get_powerstringM(long double* powv) {
 
 	std::string powvstr;
-	if (*powv == -0.5) {
+	if (chk_eql(*powv, -0.5)) {
 		powvstr = "-1/2";
 	}
-	else if (*powv == 0.5) {
+	else if (chk_eql(*powv, 0.5)) {
 		powvstr = "1/2";
 	}
-	else if (*powv == -0.333333) {
+	else if (chk_eql(*powv, -0.333333)) {
 		powvstr = "-1/3";
 	}
-	else if (*powv == 0.333333) {
+	else if (chk_eql(*powv, 0.333333)) {
 		powvstr = "1/3";
 	}
-	else if (*powv == -1.0) {
+	else if (chk_eql(*powv, -1.0)) {
 		powvstr = "-1";
 	}
-	else if (*powv == -2.0) {
+	else if (chk_eql(*powv, -2.0)) {
 		powvstr = "-2";
 	}
-	else if (*powv == 2.0) {
+	else if (chk_eql(*powv, 2.0)) {
 		powvstr = "2";
 	}
-	else if (*powv == -3.0) {
+	else if (chk_eql(*powv, -3.0)) {
 		powvstr = "-3";
 	}
-	else if (*powv == 3.0) {
+	else if (chk_eql(*powv, 3.0)) {
 		powvstr = "3";
 	}
-	else if (*powv == -4.0) {
+	else if (chk_eql(*powv, -4.0)) {
 		powvstr = "-4";
 	}
-	else if (*powv == 4.0) {
+	else if (chk_eql(*powv, 4.0)) {
 		powvstr = "4";
 	}
-	else if (*powv == -5.0) {
+	else if (chk_eql(*powv, -5.0)) {
 		powvstr = "-5";
 	}
-	else if (*powv == 5.0) {
+	else if (chk_eql(*powv, 5.0)) {
 		powvstr = "5";
 	}
 	else {
@@ -682,82 +692,82 @@ std::string get_powerstringM(long double* powv) {
 std::string get_mulstring(long double* mulv) {
 
 	std::string mulstr;
-	if (*mulv == 1.57079632679) {
+	if (chk_eql(*mulv, 1.57079632679)) {
 		mulstr = "\\frac{\\pi}{2}";
 	}
-	else if (*mulv == 3.14159265359) {
+	else if (chk_eql(*mulv, 3.14159265359)) {
 		mulstr = "\\pi";
 	}
-	else if (*mulv == 0.00157079632679) {
+	else if (chk_eql(*mulv, 0.00157079632679)) {
 		mulstr = "\\frac{\\pi}{2000}";
 	}
-	else if (*mulv == 0.00314159265359) {
+	else if (chk_eql(*mulv, 0.00314159265359)) {
 		mulstr = "\\frac{\\pi}{1000}";
 	}
-	else if (*mulv == 0.0157079632679) {
+	else if (chk_eql(*mulv, 0.0157079632679)) {
 		mulstr = "\\frac{\\pi}{200}";
 	}
-	else if (*mulv == 0.0314159265359) {
+	else if (chk_eql(*mulv, 0.0314159265359)) {
 		mulstr = "\\frac{\\pi}{100}";
 	}
-	else if (*mulv == 0.157079632679) {
+	else if (chk_eql(*mulv, 0.157079632679)) {
 		mulstr = "\\frac{\\pi}{20}";
 	}
-	else if (*mulv == 0.314159265359) {
+	else if (chk_eql(*mulv, 0.314159265359)) {
 		mulstr = "\\frac{\\pi}{10}";
 	}
-	else if (*mulv == 15.7079632679) {
+	else if (chk_eql(*mulv, 15.7079632679)) {
 		mulstr = "5{\\pi}";
 	}
-	else if (*mulv == 31.4159265359) {
+	else if (chk_eql(*mulv, 31.4159265359)) {
 		mulstr = "10{\\pi}";
 	}
-	else if (*mulv == 157.079632679) {
+	else if (chk_eql(*mulv, 157.079632679)) {
 		mulstr = "50{\\pi}";
 	}
-	else if (*mulv == 314.159265359) {
+	else if (chk_eql(*mulv, 314.159265359)) {
 		mulstr = "100{\\pi}";
 	}
-	else if (*mulv == 1570.79632679) {
+	else if (chk_eql(*mulv, 1570.79632679)) {
 		mulstr = "500{\\pi}";
 	}
-	else if (*mulv == 3141.59265359) {
+	else if (chk_eql(*mulv, 3141.59265359)) {
 		mulstr = "1000{\\pi}";
 	}
-	else if (*mulv == 0.001) {
+	else if (chk_eql(*mulv, 0.001)) {
 		mulstr = "\\frac{1}{1000}";
 	}
-	else if (*mulv == 0.01) {
+	else if (chk_eql(*mulv, 0.01)) {
 		mulstr = "\\frac{1}{100}";
 	}
-	else if (*mulv == 0.1) {
+	else if (chk_eql(*mulv, 0.1)) {
 		mulstr = "\\frac{1}{10}";
 	}
-	else if (*mulv == 10.0) {
+	else if (chk_eql(*mulv, 10.0)) {
 		mulstr = "10";
 	}
-	else if (*mulv == 100.0) {
+	else if (chk_eql(*mulv, 100.0)) {
 		mulstr = "100";
 	}
-	else if (*mulv == 1000.0) {
+	else if (chk_eql(*mulv, 1000.0)) {
 		mulstr = "1000";
 	}
-	else if (*mulv == -0.001) {
+	else if (chk_eql(*mulv, -0.001)) {
 		mulstr = "-\\frac{1}{1000}";
 	}
-	else if (*mulv == -0.01) {
+	else if (chk_eql(*mulv, -0.01)) {
 		mulstr = "-\\frac{1}{100}";
 	}
-	else if (*mulv == -0.1) {
+	else if (chk_eql(*mulv, -0.1)) {
 		mulstr = "-\\frac{1}{10}";
 	}
-	else if (*mulv == -10.0) {
+	else if (chk_eql(*mulv, -10.0)) {
 		mulstr = "-10";
 	}
-	else if (*mulv == -100.0) {
+	else if (chk_eql(*mulv, -100.0)) {
 		mulstr = "-100";
 	}
-	else if (*mulv == -1000.0) {
+	else if (chk_eql(*mulv, -1000.0)) {
 		mulstr = "-1000";
 	}
 	else {
@@ -771,82 +781,82 @@ std::string get_mulstring(long double* mulv) {
 std::string get_mulstringM(long double* mulv) {
 
 	std::string mulstr;
-	if (*mulv == 1.57079632679) {
+	if (chk_eql(*mulv, 1.57079632679)) {
 		mulstr = "Pi/2";
 	}
-	else if (*mulv == 3.14159265359) {
+	else if (chk_eql(*mulv, 3.14159265359)) {
 		mulstr = "Pi";
 	}
-	else if (*mulv == 0.00157079632679) {
+	else if (chk_eql(*mulv, 0.00157079632679)) {
 		mulstr = "Pi/2000";
 	}
-	else if (*mulv == 0.00314159265359) {
+	else if (chk_eql(*mulv, 0.00314159265359)) {
 		mulstr = "Pi/1000";
 	}
-	else if (*mulv == 0.0157079632679) {
+	else if (chk_eql(*mulv, 0.0157079632679)) {
 		mulstr = "Pi/200";
 	}
-	else if (*mulv == 0.0314159265359) {
+	else if (chk_eql(*mulv, 0.0314159265359)) {
 		mulstr = "Pi/100";
 	}
-	else if (*mulv == 0.157079632679) {
+	else if (chk_eql(*mulv, 0.157079632679)) {
 		mulstr = "Pi/20";
 	}
-	else if (*mulv == 0.314159265359) {
+	else if (chk_eql(*mulv, 0.314159265359)) {
 		mulstr = "Pi/10";
 	}
-	else if (*mulv == 15.7079632679) {
+	else if (chk_eql(*mulv, 15.7079632679)) {
 		mulstr = "5Pi";
 	}
-	else if (*mulv == 31.4159265359) {
+	else if (chk_eql(*mulv, 31.4159265359)) {
 		mulstr = "10Pi";
 	}
-	else if (*mulv == 157.079632679) {
+	else if (chk_eql(*mulv, 157.079632679)) {
 		mulstr = "50Pi";
 	}
-	else if (*mulv == 314.159265359) {
+	else if (chk_eql(*mulv, 314.159265359)) {
 		mulstr = "100Pi";
 	}
-	else if (*mulv == 1570.79632679) {
+	else if (chk_eql(*mulv, 1570.79632679)) {
 		mulstr = "500Pi";
 	}
-	else if (*mulv == 3141.59265359) {
+	else if (chk_eql(*mulv, 3141.59265359)) {
 		mulstr = "1000Pi";
 	}
-	else if (*mulv == 0.001) {
+	else if (chk_eql(*mulv, 0.001)) {
 		mulstr = "1/1000";
 	}
-	else if (*mulv == 0.01) {
+	else if (chk_eql(*mulv, 0.01)) {
 		mulstr = "1/100";
 	}
-	else if (*mulv == 0.1) {
+	else if (chk_eql(*mulv, 0.1)) {
 		mulstr = "1/10";
 	}
-	else if (*mulv == 10.0) {
+	else if (chk_eql(*mulv, 10.0)) {
 		mulstr = "10";
 	}
-	else if (*mulv == 100.0) {
+	else if (chk_eql(*mulv, 100.0)) {
 		mulstr = "100";
 	}
-	else if (*mulv == 1000.0) {
+	else if (chk_eql(*mulv, 1000.0)) {
 		mulstr = "1000";
 	}
-	else if (*mulv == -0.001) {
+	else if (chk_eql(*mulv, -0.001)) {
 		mulstr = "-1/1000";
 	}
-	else if (*mulv == -0.01) {
+	else if (chk_eql(*mulv, -0.01)) {
 		mulstr = "-1/100";
 	}
-	else if (*mulv == -0.1) {
+	else if (chk_eql(*mulv, -0.1)) {
 		mulstr = "-1/10";
 	}
-	else if (*mulv == -10.0) {
+	else if (chk_eql(*mulv, -10.0)) {
 		mulstr = "-10";
 	}
-	else if (*mulv == -100.0) {
+	else if (chk_eql(*mulv, -100.0)) {
 		mulstr = "-100";
 	}
-	else if (*mulv == -1000.0) {
+	else if (chk_eql(*mulv, -1000.0)) {
 		mulstr = "-1000";
 	}
 	else {
@@ -3068,14 +3078,14 @@ long double calc_reg_chain(REGTYPE* regtype, MAT* objMAT, std::vector<ATOMDAT>* 
 
 }
 
-long double calc_bag_chain(std::vector<long double>* v_series, std::vector<long double>* v_series_acc, long double* v_stdev, std::vector<REGTYPE>* regtype, BAGTYPE* bagtype, MAT* objMAT, std::vector<ATOMDAT>* atomdat, std::vector<STRDAT>* strdat, std::vector<ANADESCRIPTOR>* anadescriptor, long double* VInfinite, std::vector<std::string>* DoNotAnalyze, std::vector<std::string>* CationNames, std::vector<int>* test_anades, std::vector<int>* test_mamssk, bool* test_OM, int* test_CO, std::vector<long double>* test_anades_degree, long double* test_OM_degree, long double* test_CO_degree, bool* verbose, bool* post_if_exists, bool* AveOnly) {
+long double calc_bag_chain(std::vector<long double>* v_series, std::vector<long double>* v_series_acc, long double* v_stdev, std::vector<REGTYPE>* regtype, BAGTYPE* bagtype, MAT* objMAT, std::vector<ATOMDAT>* atomdat, std::vector<STRDAT>* strdat, std::vector<ANADESCRIPTOR>* anadescriptor, long double* VInfinite, std::vector<std::string>* DoNotAnalyze, std::vector<std::string>* CationNames, std::vector<int>* test_anades, std::vector<int>* test_mamssk, bool* test_OM, int* test_CO, std::vector<long double>* test_anades_degree, long double* test_OM_degree, long double* test_CO_degree, bool* verbose, bool* post_if_exists, bool* AveOnly, long double *post_v) {
 
 	std::vector<long double>().swap(*v_series);
 	std::vector<long double>().swap(*v_series_acc);
 	v_series->clear();
 	v_series_acc->clear();
 
-	long double post_v = 0.0;
+	*post_v = 0.0;
 	if (*post_if_exists) {
 		for (int pk = 0; pk < (signed)bagtype->which_regtype.size(); pk++) {
 			int k = bagtype->which_regtype[pk];
@@ -3094,7 +3104,7 @@ long double calc_bag_chain(std::vector<long double>* v_series, std::vector<long 
 							post_v_element = get_v_in_the_set(test_anades, test_mamssk, &(*regtype)[k].funcchain[0].feature[ift].i0anades, &(*regtype)[k].funcchain[0].feature[ift].i0mamssk, anadescriptor, test_anades_degree);
 						}
 						long double post_v_element_funcized = get_v(&((*regtype)[k].orthfunctype)[(*regtype)[k].postfunc[pkk].whichorthfunctype], &post_v_element);
-						post_v += post_v_element_funcized;
+						*post_v += post_v_element_funcized;
 					}
 				}
 			}
@@ -3103,7 +3113,7 @@ long double calc_bag_chain(std::vector<long double>* v_series, std::vector<long 
 
 	for (int pk = 0; pk < (signed)bagtype->which_regtype.size(); pk++) {
 		int k = bagtype->which_regtype[pk];
-		v_series->push_back(calc_reg_chain(&(*regtype)[k], objMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, test_anades, test_mamssk, test_OM, test_CO, test_anades_degree, test_OM_degree, test_CO_degree, verbose, AveOnly) + post_v);
+		v_series->push_back(calc_reg_chain(&(*regtype)[k], objMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, test_anades, test_mamssk, test_OM, test_CO, test_anades_degree, test_OM_degree, test_CO_degree, verbose, AveOnly)/* + post_v*/);
 	}
 	
 	int count = 0;
@@ -3196,7 +3206,7 @@ long double calc_bag_chain(std::vector<long double>* v_series, std::vector<long 
 		}
 	}
 	
-	return v + post_v;
+	return v + *post_v;
 
 }
 
@@ -3263,7 +3273,8 @@ void calc_bag_chain_partial_test(std::vector<long double>* v_series, std::vector
 	}
 
 	if (test_anades.size() > 0 || test_OM == true || test_CO != -100) {
-		calc_bag_chain(v_series, v_series_acc, v_stdev, regtype, bagtype, objMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, test_anades_degree, test_OM_degree, test_CO_degree, verbose, post_if_exists, AveOnly);
+		long double post_v = 0.0;
+		calc_bag_chain(v_series, v_series_acc, v_stdev, regtype, bagtype, objMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, test_anades_degree, test_OM_degree, test_CO_degree, verbose, post_if_exists, AveOnly, &post_v);
 	}
 	else {
 		for (int ireg = 0; ireg < (signed)bagtype->which_regtype.size(); ireg++) {
@@ -4064,58 +4075,91 @@ void pick_neighbor(std::vector<ATOMDAT>* atomdat, std::vector<std::string>* Neig
 	}
 
 	for (int ii = 0; ii < (signed)atomdat->size(); ii++) {
-		bool needtofind = true;
-		for (int jj = 0; jj < (signed)DoNotFindNeighbors->size(); jj++) {
-			if ((*atomdat)[ii].atomname == (*DoNotFindNeighbors)[jj]) {
-				needtofind = false;
-				if ((*DopeOnly)[jj]) {
-					needtofind = true;
-					(*atomdat)[ii].dopeonly = true;
-				}
-				break;
-			}
-		}
-		if (needtofind) {
-			for (int jj = 0; jj < (signed)atomdat->size(); jj++) {
-				bool exclude = false;
-				for (int kk = 0; kk < (signed)ExcludeNeighbors->size(); kk++) {
-					if ((*atomdat)[jj].atomname == (*ExcludeNeighbors)[kk]) {
-						exclude = true;
+		readnb.open((*atomdat)[ii].atomname + ".nb.txt");
+		if (readnb.is_open()) {
+			while (true) {
+				readnb >> sbuf;
+				for (int jj = 0; jj < (signed)atomdat->size(); jj++) {
+					if ((*atomdat)[jj].atomname != (*atomdat)[ii].atomname && (*atomdat)[jj].atomname == sbuf) {
+						NEIGHBOR objNEIGHBOR;
+						objNEIGHBOR.atomname = (*atomdat)[jj].atomname;
+						objNEIGHBOR.iatom = jj;
+						(*atomdat)[ii].neighbor.push_back(objNEIGHBOR);
+						std::cout << "Overwrite NEIGHBOR: " << (*atomdat)[ii].atomname << "\t...NEIGHBOR...\t" << (*atomdat)[jj].atomname << "\n";
+						std::cout.flush();
 						break;
 					}
 				}
-				if (ii != jj && !exclude) {
-					if (*NeighborZCrit > 0.0) {
-						long double zdist = 0.0;
-						for (int i = 0; i < (signed)ides.size(); i++) {
-							zdist += powl((*atomdat)[jj].zv[ides[i]] - (*atomdat)[ii].zv[ides[i]], 2.0);
-						}
-						zdist = sqrtl(zdist);
-						if (zdist <= *NeighborZCrit) {
-							NEIGHBOR objNEIGHBOR;
-							objNEIGHBOR.atomname = (*atomdat)[jj].atomname;
-							objNEIGHBOR.iatom = jj;
-							(*atomdat)[ii].neighbor.push_back(objNEIGHBOR);
+				if (readnb.eof()) {
+					break;
+				}
+			}
+			readnb.close();
+			for (int jj = 0; jj < (signed)DoNotFindNeighbors->size(); jj++) {
+				if ((*atomdat)[ii].atomname == (*DoNotFindNeighbors)[jj]) {
+					if ((*DopeOnly)[jj]) {
+						(*atomdat)[ii].dopeonly = true;
+					}
+					break;
+				}
+			}
+		}
+		else {
+			readnb.close();
+			bool needtofind = true;
+			for (int jj = 0; jj < (signed)DoNotFindNeighbors->size(); jj++) {
+				if ((*atomdat)[ii].atomname == (*DoNotFindNeighbors)[jj]) {
+					needtofind = false;
+					if ((*DopeOnly)[jj]) {
+						needtofind = true;
+						(*atomdat)[ii].dopeonly = true;
+					}
+					break;
+				}
+			}
+			if (needtofind) {
+				for (int jj = 0; jj < (signed)atomdat->size(); jj++) {
+					bool exclude = false;
+					for (int kk = 0; kk < (signed)ExcludeNeighbors->size(); kk++) {
+						if ((*atomdat)[jj].atomname == (*ExcludeNeighbors)[kk]) {
+							exclude = true;
+							break;
 						}
 					}
-					else {
-						bool include_neighbor = true;
-						for (int i = 0; i < (signed)ides.size(); i++) {
-							if (fabsl((*atomdat)[jj].v[ides[i]] - (*atomdat)[ii].v[ides[i]]) > fabsl((*NeighborCrit)[i])) {
-								include_neighbor = false;
-								break;
+					if (ii != jj && !exclude) {
+						if (*NeighborZCrit > 0.0) {
+							long double zdist = 0.0;
+							for (int i = 0; i < (signed)ides.size(); i++) {
+								zdist += powl((*atomdat)[jj].zv[ides[i]] - (*atomdat)[ii].zv[ides[i]], 2.0);
+							}
+							zdist = sqrtl(zdist);
+							if (zdist <= *NeighborZCrit) {
+								NEIGHBOR objNEIGHBOR;
+								objNEIGHBOR.atomname = (*atomdat)[jj].atomname;
+								objNEIGHBOR.iatom = jj;
+								(*atomdat)[ii].neighbor.push_back(objNEIGHBOR);
 							}
 						}
-						if (include_neighbor) {
-							NEIGHBOR objNEIGHBOR;
-							objNEIGHBOR.atomname = (*atomdat)[jj].atomname;
-							objNEIGHBOR.iatom = jj;
-							(*atomdat)[ii].neighbor.push_back(objNEIGHBOR);
+						else {
+							bool include_neighbor = true;
+							for (int i = 0; i < (signed)ides.size(); i++) {
+								if (fabsl((*atomdat)[jj].v[ides[i]] - (*atomdat)[ii].v[ides[i]]) > fabsl((*NeighborCrit)[i])) {
+									include_neighbor = false;
+									break;
+								}
+							}
+							if (include_neighbor) {
+								NEIGHBOR objNEIGHBOR;
+								objNEIGHBOR.atomname = (*atomdat)[jj].atomname;
+								objNEIGHBOR.iatom = jj;
+								(*atomdat)[ii].neighbor.push_back(objNEIGHBOR);
+							}
 						}
 					}
 				}
 			}
 		}
+
 	}
 	
 	for (int ii = 0; ii < (signed)atomdat->size(); ii++) {
@@ -4456,7 +4500,7 @@ bool identify_anades_chain(int* itype, int* ianades, int* imamssk, std::string* 
 					*imamssk = 0;
 					*ianades = i;
 					*itype = 0;
-					*latex = "m\\left(" + (*anadescriptor)[i].latex + "\\right)";
+					*latex = " m \\left( " + (*anadescriptor)[i].latex + " \\right) ";
 					*mathematica = "Subscript[" + (*anadescriptor)[i].mathematica + ", min]";
 					found = true;
 				}
@@ -4464,7 +4508,7 @@ bool identify_anades_chain(int* itype, int* ianades, int* imamssk, std::string* 
 					*imamssk = 1;
 					*ianades = i;
 					*itype = 0;
-					*latex = "\\langle" + (*anadescriptor)[i].latex + "\\rangle";
+					*latex = " \\langle " + (*anadescriptor)[i].latex + " \\rangle ";
 					*mathematica = "Subscript[" + (*anadescriptor)[i].mathematica + ", ave]";
 					found = true;
 				}
@@ -4472,7 +4516,7 @@ bool identify_anades_chain(int* itype, int* ianades, int* imamssk, std::string* 
 					*imamssk = 2;
 					*ianades = i;
 					*itype = 0;
-					*latex = "M\\left(" + (*anadescriptor)[i].latex + "\\right)";
+					*latex = " M \\left( " + (*anadescriptor)[i].latex + " \\right) ";
 					*mathematica = "Subscript[" + (*anadescriptor)[i].mathematica + ", max]";
 					found = true;
 				}
@@ -4480,7 +4524,7 @@ bool identify_anades_chain(int* itype, int* ianades, int* imamssk, std::string* 
 					*imamssk = 3;
 					*ianades = i;
 					*itype = 0;
-					*latex = "\\sigma\\left(" + (*anadescriptor)[i].latex + "\\right)";
+					*latex = " \\sigma \\left( " + (*anadescriptor)[i].latex + " \\right) ";
 					*mathematica = "Subscript[" + (*anadescriptor)[i].mathematica + ", stdev]";
 					found = true;
 				}
@@ -4488,7 +4532,7 @@ bool identify_anades_chain(int* itype, int* ianades, int* imamssk, std::string* 
 					*imamssk = 4;
 					*ianades = i;
 					*itype = 0;
-					*latex = "r\\left(" + (*anadescriptor)[i].latex + "\\right)";
+					*latex = " r \\left( " + (*anadescriptor)[i].latex + " \\right) ";
 					*mathematica = "Subscript[" + (*anadescriptor)[i].mathematica + ", skew]";
 					found = true;
 				}
@@ -4496,7 +4540,7 @@ bool identify_anades_chain(int* itype, int* ianades, int* imamssk, std::string* 
 					*imamssk = 5;
 					*ianades = i;
 					*itype = 0;
-					*latex = "K\\left(" + (*anadescriptor)[i].latex + "\\right)";
+					*latex = " K \\left( " + (*anadescriptor)[i].latex + " \\right) ";
 					*mathematica = "Subscript[" + (*anadescriptor)[i].mathematica + ", kurto]";
 					found = true;
 				}
@@ -5150,10 +5194,10 @@ REGTYPE read_reg_chain(std::string* RegFilename, std::vector<ANADESCRIPTOR>* ana
 											objFUNC.latex += get_addstring(&objREGTYPE.orthfunctype[jfc].coeff[0]);
 										}
 										std::string coeff1 = std::to_string(objREGTYPE.orthfunctype[jfc].coeff[1]);
-										if (objREGTYPE.orthfunctype[jfc].coeff[1] == 2.71828) {
+										if (chk_eql(objREGTYPE.orthfunctype[jfc].coeff[1], 2.71828)) {
 											coeff1 = "e";
 										}
-										else if (objREGTYPE.orthfunctype[jfc].coeff[1] == 10.0) {
+										else if (chk_eql(objREGTYPE.orthfunctype[jfc].coeff[1], 10.0)) {
 											coeff1 = "10";
 										}
 										objFUNC.latex = "\\log_{" + coeff1 + "}(" + objFUNC.latex + ")";
@@ -5165,10 +5209,10 @@ REGTYPE read_reg_chain(std::string* RegFilename, std::vector<ANADESCRIPTOR>* ana
 											objFUNC.mathematica += get_addstringM(&objREGTYPE.orthfunctype[jfc].coeff[0]);
 										}
 										coeff1 = std::to_string(objREGTYPE.orthfunctype[jfc].coeff[1]);
-										if (objREGTYPE.orthfunctype[jfc].coeff[1] == 2.71828) {
+										if (chk_eql(objREGTYPE.orthfunctype[jfc].coeff[1], 2.71828)) {
 											coeff1 = "E";
 										}
-										else if (objREGTYPE.orthfunctype[jfc].coeff[1] == 10.0) {
+										else if (chk_eql(objREGTYPE.orthfunctype[jfc].coeff[1], 10.0)) {
 											coeff1 = "10";
 										}
 										objFUNC.mathematica = "Log[" + coeff1 + ", " + objFUNC.mathematica + "]";
@@ -5289,10 +5333,10 @@ REGTYPE read_reg_chain(std::string* RegFilename, std::vector<ANADESCRIPTOR>* ana
 												objFUNC.latex = get_mulstring(&objREGTYPE.orthfunctype[jfc].coeff[2]) + objFUNC.latex;
 											}	
 										}
-										if (objREGTYPE.orthfunctype[jfc].coeff[3] == 2.71828) {
+										if (chk_eql(objREGTYPE.orthfunctype[jfc].coeff[3], 2.71828)) {
 											objFUNC.latex = "\\exp\\left(" + objFUNC.latex + "\\right)";
 										}
-										else if (objREGTYPE.orthfunctype[jfc].coeff[3] == 10.0) {
+										else if (chk_eql(objREGTYPE.orthfunctype[jfc].coeff[3], 10.0)) {
 											objFUNC.latex = "10^{" + objFUNC.latex + "}";
 										}
 										else {
@@ -5311,10 +5355,10 @@ REGTYPE read_reg_chain(std::string* RegFilename, std::vector<ANADESCRIPTOR>* ana
 										if (objREGTYPE.orthfunctype[jfc].coeff[2] != 1.0) {
 											objFUNC.mathematica = get_mulstringM(&objREGTYPE.orthfunctype[jfc].coeff[2]) + "(" + objFUNC.mathematica + ")";
 										}
-										if (objREGTYPE.orthfunctype[jfc].coeff[3] == 2.71828) {
+										if (chk_eql(objREGTYPE.orthfunctype[jfc].coeff[3], 2.71828)) {
 											objFUNC.mathematica = "Exp[" + objFUNC.mathematica + "]";
 										}
-										else if (objREGTYPE.orthfunctype[jfc].coeff[3] == 10.0) {
+										else if (chk_eql(objREGTYPE.orthfunctype[jfc].coeff[3], 10.0)) {
 											objFUNC.mathematica = "Power[10, " + objFUNC.mathematica + "]";
 										}
 										else {
@@ -5502,14 +5546,14 @@ REGTYPE read_reg_chain(std::string* RegFilename, std::vector<ANADESCRIPTOR>* ana
 
 }
 
-void generate_tuples(std::vector<int>* occs, int pos, int* imin, int* imax, std::vector<std::string>* test_name, BAGTYPE* bagtype, int* ibag, std::vector<REGTYPE>* regtype, std::vector<std::string>* RegModelFilename, std::vector<ATOMDAT>* atomdat, std::vector<STRDAT>* strdat, std::vector<ANADESCRIPTOR>* anadescriptor, long double* VInfinite, std::vector<std::string>* DoNotAnalyze, std::string* AnionName, std::vector<std::string>* CationNames, bool* verbose, std::string* AnalysisOutputFilename, std::vector<int>* tcolumns, bool* AveOnly) {
+void generate_tuples(std::vector<int>* occs, int pos, int* imin, int* imax, std::vector<std::string>* test_name, BAGTYPE* bagtype, int* ibag, std::vector<REGTYPE>* regtype, std::vector<std::string>* RegModelFilename, std::vector<ATOMDAT>* atomdat, std::vector<STRDAT>* strdat, std::vector<ANADESCRIPTOR>* anadescriptor, long double* VInfinite, std::vector<std::string>* DoNotAnalyze, std::string* AnionName, std::vector<std::string>* CationNames, bool* verbose, std::string* AnalysisOutputFilename, std::vector<int>* tcolumns, int* tcolumnR, bool* AveOnly) {
 
 	long double increment = (long double)(*imax - *imin);
 
 	for (int i = *imin; i <= *imax; i++) {
 		(*occs)[pos] = i;
 		if (pos != occs->size() - 1) {
-			generate_tuples(occs, pos + 1, imin, imax, test_name, bagtype, ibag, regtype, RegModelFilename, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, AnionName, CationNames, verbose, AnalysisOutputFilename, tcolumns, AveOnly);
+			generate_tuples(occs, pos + 1, imin, imax, test_name, bagtype, ibag, regtype, RegModelFilename, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, AnionName, CationNames, verbose, AnalysisOutputFilename, tcolumns, tcolumnR, AveOnly);
 		}
 		else {
 			std::vector<long double> voccs;
@@ -5569,19 +5613,29 @@ void generate_tuples(std::vector<int>* occs, int pos, int* imin, int* imax, std:
 				writezcext.flush();
 			}
 			readanalysis.open(*AnalysisOutputFilename);
+			readanalysisR.open("__R__." + * AnalysisOutputFilename);
+			std::string sbufR;
 			std::getline(readanalysis, sbuf);
+			std::getline(readanalysisR, sbufR);
 			std::vector<long double> real_values;
+			std::vector<long double> reg_values;
 			while (true) {
 				std::getline(readanalysis, sbuf);
+				std::getline(readanalysisR, sbufR);
 				if (sbuf.find("===") != std::string::npos) {
 					break;
 				}
-				std::stringstream linebuf;
+				std::stringstream linebuf, linebufR;
 				linebuf.str("");
 				linebuf.clear();
 				linebuf << sbuf;
+				linebufR.str("");
+				linebufR.clear();
+				linebufR << sbufR;
 				int icol = -1;
+				int icolR = -1;
 				std::vector<long double> collect_v;
+				long double collect_vR = 0.0;
 				for (int ic = 0; ic < tcolumns->size(); ic++) {
 					collect_v.push_back(0.0);
 				}
@@ -5603,6 +5657,19 @@ void generate_tuples(std::vector<int>* occs, int pos, int* imin, int* imax, std:
 						break;
 					}
 				}
+				while (true) {
+					linebufR >> sbufR;
+					icolR++;
+					if (*tcolumnR == icolR) {
+						std::stringstream cbuf;
+						cbuf.str("");
+						cbuf.clear();
+						cbuf << sbufR;
+						cbuf >> ldbuf;
+						collect_vR = ldbuf;
+						break;
+					}
+				}
 				bool take = true;
 				for (int iblock = 0; iblock < (signed)collect_v.size() - 1; iblock++) {
 					long double delta = fabsl(0.5 * (floating_v_max[iblock] - floating_v_min[iblock]) / increment);
@@ -5613,16 +5680,17 @@ void generate_tuples(std::vector<int>* occs, int pos, int* imin, int* imax, std:
 				}
 				if (take) {
 					real_values.push_back(collect_v[0]);
+					reg_values.push_back(collect_vR);
 				}
 				std::vector<long double>().swap(collect_v);
-				if (readanalysis.eof()) {
+				if (readanalysis.eof() || readanalysisR.eof()) {
 					break;
 				}
 			}
 			writezcext << v_series_acc[v_series_acc.size() - 1] << "\t" << v_stdev << "\t";
 			writezcext.flush();
-			if (real_values.size() == 0) {
-				writezcext << "-\t-\t-\t-\t-\n";
+			if (real_values.size() == 0 || reg_values.size() == 0) {
+				writezcext << "-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n";
 				writezcext.flush();
 			}
 			else {
@@ -5645,13 +5713,36 @@ void generate_tuples(std::vector<int>* occs, int pos, int* imin, int* imax, std:
 				}
 				stdv /= (long double)real_values.size();
 				stdv = sqrtl(stdv);
-				writezcext << real_values.size() << "\t" << min << "\t" << ave << "\t" << stdv << "\t" << max << "\n";
+				writezcext << real_values.size() << "\t" << min << "\t" << ave << "\t" << stdv << "\t" << max << "\t";
+				writezcext.flush();
+				min = *VInfinite;
+				max = -*VInfinite;
+				ave = 0.0;
+				stdv = 0.0;
+				for (int ireg = 0; ireg < (signed)reg_values.size(); ireg++) {
+					if (reg_values[ireg] > max) {
+						max = reg_values[ireg];
+					}
+					ave += reg_values[ireg];
+					if (reg_values[ireg] < min) {
+						min = reg_values[ireg];
+					}
+				}
+				ave /= (long double)reg_values.size();
+				for (int ireg = 0; ireg < (signed)reg_values.size(); ireg++) {
+					stdv += powl(reg_values[ireg] - ave, 2.0);
+				}
+				stdv /= (long double)reg_values.size();
+				stdv = sqrtl(stdv);
+				writezcext << reg_values.size() << "\t" << min << "\t" << ave << "\t" << stdv << "\t" << max << "\n";
 				writezcext.flush();
 			}
 			readanalysis.close();
+			readanalysisR.close();
 			std::vector<long double>().swap(voccs);
 			std::vector<long double>().swap(test_anades_degree);
 			std::vector<long double>().swap(real_values);
+			std::vector<long double>().swap(reg_values);
 		}
 	}
 
@@ -5988,7 +6079,7 @@ void analyze_terms_zc(BAGTYPE* bagtype, int* ibag, std::vector<REGTYPE>* regtype
 					writezcext << bagtype->termanaforbag[it_list[it]].name[in] << "\t";
 					writezcext.flush();
 				}
-				writezcext << bagtype->name << "\tModelStdDv\tNsample\tMin\tAve\t+-\tMax\n";
+				writezcext << bagtype->name << "\tModelStdDv\tNsample\tMin\tAve\t+-\tMax\tNsample(R)\tMin(R)\tAve(R)\t+-(R)\tMax(R)\n";
 				writezcext.flush();
 				std::vector<int> tcolumns;
 				tcolumns.clear();
@@ -6021,6 +6112,26 @@ void analyze_terms_zc(BAGTYPE* bagtype, int* ibag, std::vector<REGTYPE>* regtype
 				}
 				readanalysis.close();
 
+				int tcolumnR = -1;
+				readanalysisR.open("__R__." + * AnalysisOutputFilename);
+				std::getline(readanalysisR, sbuf);
+				linebuf.str("");
+				linebuf.clear();
+				linebuf << sbuf;
+				icol = -1;
+				while (true) {
+					linebuf >> sbuf;
+					icol++;
+					if (sbuf == "bag" + std::to_string(*ibag) + "_" + bagtype->name) {
+						tcolumnR = icol;
+						break;
+					}
+					if (linebuf.eof()) {
+						break;
+					}
+				}
+				readanalysisR.close();
+
 				int imin = 0;
 				int imax = *AnalysisMesh;
 				std::vector<int> occs;
@@ -6028,7 +6139,7 @@ void analyze_terms_zc(BAGTYPE* bagtype, int* ibag, std::vector<REGTYPE>* regtype
 					occs.push_back(-1);
 				}
 				int init_pos = 0;
-				generate_tuples(&occs, init_pos, &imin, &imax, &bagtype->termanaforbag[it_list[it]].name, bagtype, ibag, regtype, RegModelFilename, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, AnionName, CationNames, verbose, AnalysisOutputFilename, &tcolumns, AveOnly);
+				generate_tuples(&occs, init_pos, &imin, &imax, &bagtype->termanaforbag[it_list[it]].name, bagtype, ibag, regtype, RegModelFilename, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, AnionName, CationNames, verbose, AnalysisOutputFilename, &tcolumns, &tcolumnR, AveOnly);
 				get_floating_v = false;
 				writezcext.close();
 				std::vector<int>().swap(tcolumns);
@@ -6659,10 +6770,12 @@ void process_matdat(std::vector<long double>* zTargetVReg, std::vector<long doub
 								std::vector<long double> vacc;
 								vacc.clear();
 								long double v_stdev;
-								bagv.push_back(calc_bag_chain(&regv2, &vacc, &v_stdev, regtype, &(*bagtype)[k], &objMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, &test_anades_degree, &test_OM_degree, &test_CO_degree, verbose, &post_if_exists, AveOnly));
+								long double post_v = 0.0;
+								bagv.push_back(calc_bag_chain(&regv2, &vacc, &v_stdev, regtype, &(*bagtype)[k], &objMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, &test_anades_degree, &test_OM_degree, &test_CO_degree, verbose, &post_if_exists, AveOnly, &post_v));
 								bagstdev.push_back(v_stdev);
 								(*bagtype)[k].regressed_v_list.push_back(bagv[bagv.size() - 1]);
 								(*bagtype)[k].regressed_stddv_v_list.push_back(0.0);
+								(*bagtype)[k].regressed_post_v_list.push_back(post_v);
 								for (int kk = 0; kk < (signed)regv2.size(); kk++) {
 									regv.push_back(regv2[kk]);
 									(*regtype)[(*bagtype)[k].which_regtype[kk]].regressed_v_list.push_back(regv2[kk]);
@@ -6799,7 +6912,8 @@ void process_matdat(std::vector<long double>* zTargetVReg, std::vector<long doub
 									bool post_if_exists = true;
 									std::vector<long double> rv, rvacc;
 									long double v_stdev;
-									long double init_value = calc_bag_chain(&rv, &rvacc, &v_stdev, regtype, &(*bagtype)[kk], &objMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, &test_anades_degree, &test_OM_degree, &test_CO_degree, verbose, &post_if_exists, AveOnly);
+									long double post_v = 0.0;
+									long double init_value = calc_bag_chain(&rv, &rvacc, &v_stdev, regtype, &(*bagtype)[kk], &objMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, &test_anades_degree, &test_OM_degree, &test_CO_degree, verbose, &post_if_exists, AveOnly, &post_v);
 									std::vector<long double>().swap(rv);
 									std::vector<long double>().swap(rvacc);
 									std::vector<int>().swap(test_anades);
@@ -6984,7 +7098,8 @@ void process_matdat(std::vector<long double>* zTargetVReg, std::vector<long doub
 														bool post_if_exists = true;
 														std::vector<long double> rv, rvacc;
 														long double v_stdev;
-														long double upd_value = calc_bag_chain(&rv, &rvacc, &v_stdev, regtype, &(*bagtype)[kk], &updMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, &test_anades_degree, &test_OM_degree, &test_CO_degree, verbose, &post_if_exists, AveOnly);
+														long double post_v = 0.0;
+														long double upd_value = calc_bag_chain(&rv, &rvacc, &v_stdev, regtype, &(*bagtype)[kk], &updMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, &test_anades_degree, &test_OM_degree, &test_CO_degree, verbose, &post_if_exists, AveOnly, &post_v);
 														std::vector<long double>().swap(rv);
 														std::vector<long double>().swap(rvacc);
 														std::vector<int>().swap(test_anades);
@@ -7282,6 +7397,7 @@ void process_matdat(std::vector<long double>* zTargetVReg, std::vector<long doub
 				}
 			}
 			else {
+				(*bagtype)[k].stackingensemble.clear();
 				std::cout << "OVERWRITING Coefficients for stacking ensembles... " << (*bagtype)[k].name << " from " << secoeff_filename << "\n";
 				std::cout.flush();
 				writeanalysis << "OVERWRITING Coefficients for stacking ensembles... " << (*bagtype)[k].name << " from " << secoeff_filename << "\n";
@@ -7387,7 +7503,7 @@ void process_matdat(std::vector<long double>* zTargetVReg, std::vector<long doub
 				}
 			}
 			for (int k = 0; k < (signed)bagtype->size(); k++) {
-				writeanalysis_second << (*bagtype)[k].regressed_v_list[iele] << "\t" << (*bagtype)[k].regressed_stddv_v_list[iele] << "\t";
+				writeanalysis_second << (*bagtype)[k].regressed_v_list[iele] + (*bagtype)[k].regressed_post_v_list[iele] << "\t" << (*bagtype)[k].regressed_stddv_v_list[iele] << "\t";
 				writeanalysis_second.flush();
 			}
 			for (int k = 0; k < (signed)bagtype->size(); k++) {
@@ -7972,7 +8088,8 @@ void process_matdat(std::vector<long double>* zTargetVReg, std::vector<long doub
 					long double test_OM_degree = 0.0;
 					long double test_CO_degree = 0.0;
 					MAT nullMAT;
-					calc_bag_chain(&v_series, &v_series_acc, &v_stdev, regtype, &(*bagtype)[k], &nullMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, &test_anades_degree, &test_OM_degree, &test_CO_degree, verbose, &post_if_exists, AveOnly);
+					long double post_v = 0.0;
+					calc_bag_chain(&v_series, &v_series_acc, &v_stdev, regtype, &(*bagtype)[k], &nullMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, &test_anades_degree, &test_OM_degree, &test_CO_degree, verbose, &post_if_exists, AveOnly, &post_v);
 					for (int jj = 0; jj < (signed)v_series.size(); jj++) {
 						writeonevtest << v_series[jj] << "\t";
 						writeonevtest.flush();
@@ -8008,7 +8125,8 @@ void process_matdat(std::vector<long double>* zTargetVReg, std::vector<long doub
 					long double test_CO_degree = 0.0;
 					bool post_if_exists = true;
 					MAT nullMAT;
-					calc_bag_chain(&v_series, &v_series_acc, &v_stdev, regtype, &(*bagtype)[k], &nullMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, &test_anades_degree, &test_OM_degree, &test_CO_degree, verbose, &post_if_exists, AveOnly);
+					long double post_v = 0.0;
+					calc_bag_chain(&v_series, &v_series_acc, &v_stdev, regtype, &(*bagtype)[k], &nullMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, &test_anades_degree, &test_OM_degree, &test_CO_degree, verbose, &post_if_exists, AveOnly, &post_v);
 					for (int jj = 0; jj < (signed)v_series.size(); jj++) {
 						writeonevtest << v_series[jj] << "\t";
 						writeonevtest.flush();
@@ -8044,7 +8162,8 @@ void process_matdat(std::vector<long double>* zTargetVReg, std::vector<long doub
 						long double test_CO_degree = (long double)itest / 100.0;
 						bool post_if_exists = true;
 						MAT nullMAT;
-						calc_bag_chain(&v_series, &v_series_acc, &v_stdev, regtype, &(*bagtype)[k], &nullMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, &test_anades_degree, &test_OM_degree, &test_CO_degree, verbose, &post_if_exists, AveOnly);
+						long double post_v = 0.0;
+						calc_bag_chain(&v_series, &v_series_acc, &v_stdev, regtype, &(*bagtype)[k], &nullMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, &test_anades_degree, &test_OM_degree, &test_CO_degree, verbose, &post_if_exists, AveOnly, &post_v);
 						for (int jj = 0; jj < (signed)v_series.size(); jj++) {
 							writeonevtest << v_series[jj] << "\t";
 							writeonevtest.flush();
@@ -8295,7 +8414,8 @@ void process_mapout(std::vector<long double>* zTargetVReg, std::vector<long doub
 					bool post_if_exists = true;
 					std::vector<long double> v, va;
 					long double v_stdev;
-					ave[k] += calc_bag_chain(&v, &va, &v_stdev, regtype, &(*bagtype)[k], &objMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, &test_anades_degree, &test_OM_degree, &test_CO_degree, verbose, &post_if_exists, AveOnly);
+					long double post_v = 0.0;
+					ave[k] += calc_bag_chain(&v, &va, &v_stdev, regtype, &(*bagtype)[k], &objMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, &test_anades_degree, &test_OM_degree, &test_CO_degree, verbose, &post_if_exists, AveOnly, &post_v);
 					std::vector<long double>().swap(v);
 					std::vector<long double>().swap(va);
 					std::vector<int>().swap(test_anades);
@@ -8420,7 +8540,8 @@ void process_mapout(std::vector<long double>* zTargetVReg, std::vector<long doub
 					bool post_if_exists = true;
 					std::vector<long double> v, va;
 					long double v_stdev;
-					stdev[k] += powl(calc_bag_chain(&v, &va, &v_stdev, regtype, &(*bagtype)[k], &objMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, &test_anades_degree, &test_OM_degree, &test_CO_degree, verbose, &post_if_exists, AveOnly) - ave[k], 2.0);
+					long double post_v = 0.0;
+					stdev[k] += powl(calc_bag_chain(&v, &va, &v_stdev, regtype, &(*bagtype)[k], &objMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, &test_anades_degree, &test_OM_degree, &test_CO_degree, verbose, &post_if_exists, AveOnly, &post_v) - ave[k], 2.0);
 					std::vector<long double>().swap(v);
 					std::vector<long double>().swap(va);
 					std::vector<int>().swap(test_anades);
@@ -8571,7 +8692,8 @@ void process_mapout(std::vector<long double>* zTargetVReg, std::vector<long doub
 					bool post_if_exists = true;
 					std::vector<long double> v, va;
 					long double v_stdev;
-					long double v_loc = calc_bag_chain(&v, &va, &v_stdev, regtype, &(*bagtype)[k], &objMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, &test_anades_degree, &test_OM_degree, &test_CO_degree, verbose, &post_if_exists, AveOnly);
+					long double post_v = 0.0;
+					long double v_loc = calc_bag_chain(&v, &va, &v_stdev, regtype, &(*bagtype)[k], &objMAT, atomdat, strdat, anadescriptor, VInfinite, DoNotAnalyze, CationNames, &test_anades, &test_mamssk, &test_OM, &test_CO, &test_anades_degree, &test_OM_degree, &test_CO_degree, verbose, &post_if_exists, AveOnly, &post_v);
 					long double z_loc = (v_loc - ave[k]) / stdev[k];
 					v.push_back(v_loc);
 					z.push_back(z_loc);
@@ -8949,6 +9071,35 @@ int main() {
 				objTERMANAFORBAG.metacount = 0;
 				objTERMANAFORBAG.count = 0;
 				bagtype[ibag].termanaforbag.push_back(objTERMANAFORBAG);
+			}
+			std::string secoeff_filename = bagtype[ibag].name + ".se.txt";
+			std::ifstream readsecoeff;
+			readsecoeff.open(secoeff_filename);
+			if (readsecoeff.is_open()) {
+				bagtype[ibag].stackingensemble.clear();
+				std::cout << "!! OVERWRITING Coefficients for stacking ensembles... " << bagtype[ibag].name << " from " << secoeff_filename << "\n";
+				std::cout.flush();
+				std::getline(readsecoeff, sbuf);
+				for (int kk = 0; kk < (signed)bagtype[ibag].which_regtype.size(); kk++) {
+					STACKINGENSEMBLE objSTACKINGENSEMBLE;
+					objSTACKINGENSEMBLE.coeff_sum = 0.0;
+					for (int kkk = 0; kkk < kk + 2; kkk++) {
+						if (kkk == 0 || kkk == 1) {
+							readsecoeff >> sbuf;
+						}
+						else {
+							readsecoeff >> sbuf >> sbuf;
+						}
+						long double ldbuf;
+						readsecoeff >> ldbuf;
+						objSTACKINGENSEMBLE.coeff.push_back(ldbuf);
+						if (objSTACKINGENSEMBLE.coeff.size() > 1) {
+							objSTACKINGENSEMBLE.coeff_sum += fabsl(ldbuf);
+						}
+					}
+					std::getline(readsecoeff, sbuf);
+					bagtype[ibag].stackingensemble.push_back(objSTACKINGENSEMBLE);
+				}
 			}
 		}
 		
