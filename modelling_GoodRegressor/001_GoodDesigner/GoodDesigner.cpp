@@ -6904,13 +6904,9 @@ void process_matdat(std::vector<long double>* zTargetVReg, std::vector<long doub
 													else {
 														updMAT.content[t] = (*ModulateContentFactor)[tt] * startMAT.content[t];
 													}
-													designmate_iatom(&objMAT, atomdat);
-													long double upd_CationSum = 0.0;
-													long double* upd_scation_sum;
-													upd_scation_sum = new long double[CationNames->size()];
-													for (int upd_j = 0; upd_j < (signed)CationNames->size(); upd_j++) {
-														upd_scation_sum[upd_j] = 0.0;
-													}
+											designmate_iatom(&objMAT, atomdat);
+											long double upd_CationSum = 0.0;
+											std::vector<long double> upd_scation_sum(CationNames->size(), 0.0);
 													if (*AnionName != "-") {
 														long double CationValenceTotal = 0.0;
 														for (int ttt = 0; ttt < (signed)updMAT.iatom.size(); ttt++) {
