@@ -52,6 +52,7 @@ typedef struct {
 	long double Fvalue, p_Fvalue;
 	bool full_Frequentist;
 	std::vector<int> fit_coeff_porder, fit_coeff_porder_on_arr;
+	std::vector<long double> fit_coeff_pordered;
 
 	Eigen::MatrixXd MatrixYB;
 	Eigen::MatrixXd MatrixZB;
@@ -71,6 +72,7 @@ typedef struct {
 	long double SStotB, SSresB;
 	long double det_r2_pseudo;
 	std::vector<int> fit_coeff_porderB, fit_coeff_porder_on_arrB;
+	std::vector<long double> fit_coeff_porderedB;
 
 }REGELE;
 
@@ -1865,7 +1867,7 @@ void initialize_regression(REGELE* RegEle, std::vector<DATASET>* dataset, int* N
 	std::vector<long double>().swap(RegEle->fit_coeff_t);
 	std::vector<long double>().swap(RegEle->fit_coeff_p);
 	std::vector<long double>().swap(RegEle->fit_coeff_CI_start);
-	std::vector<long double>().swap(RegEle->fit_coeff_CI_end)
+	std::vector<long double>().swap(RegEle->fit_coeff_CI_end);
 	std::vector<int>().swap(RegEle->fit_coeff_porder);
 	std::vector<int>().swap(RegEle->fit_coeff_porder_on_arr);
 
@@ -2984,7 +2986,7 @@ void order_pB(REGELE* RegEle, std::vector<int>* arrange) {
 			}
 		}
 		RegEle->fit_coeff_porderB.push_back(target_index);
-		RegEle->fit_coeff_pordered.push_back(RegEle->fit_coeff_pB[target_index + 1]);
+		RegEle->fit_coeff_porderedB.push_back(RegEle->fit_coeff_pB[target_index + 1]);
 		already_chk[target_index] = true;
 		int find_pos = -1;
 		for (int find_in_arr = 0; find_in_arr < (signed)arrange->size(); find_in_arr++) {
