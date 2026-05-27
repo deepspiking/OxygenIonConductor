@@ -44,7 +44,7 @@ typedef struct {
 	Eigen::MatrixXd MatrixXTXi;
 	Eigen::MatrixXd MatrixBeta;
 	Eigen::MatrixXd MatrixBetaStandardized;
-	std::vector<long double> fit_coeff, fit_coeff_standardized, fit_coeff_SE, fit_coeff_t, fit_coeff_p, fit_coeff_CI_start, fit_coeff_CI_end;
+	std::vector<long double> fit_coeff, fit_coeff_standardized, fit_coeff_SE, fit_coeff_t, fit_coeff_p, fit_coeff_CI_start, fit_coeff_CI_end, fit_coeff_pordered;
 	long double SStot, SSres;
 	long double MSE, RMSE, MAE;
 	long double det_r2, det_radj2;
@@ -67,7 +67,7 @@ typedef struct {
 	long double fit_phiB, fit_phi_SEB, fit_phi_tB, fit_phi_pB, fit_phi_CI_startB, fit_phi_CI_endB;
 	long double initphiB;
 	long double logbetadenseB;
-	std::vector<long double> fit_coeffB, fit_coeff_standardizedB, fit_coeff_SEB, fit_coeff_tB, fit_coeff_pB, fit_coeff_CI_startB, fit_coeff_CI_endB;
+	std::vector<long double> fit_coeffB, fit_coeff_standardizedB, fit_coeff_SEB, fit_coeff_tB, fit_coeff_pB, fit_coeff_CI_startB, fit_coeff_CI_endB, fit_coeff_porderedB;
 	long double SStotB, SSresB;
 	long double det_r2_pseudo;
 	std::vector<int> fit_coeff_porderB, fit_coeff_porder_on_arrB;
@@ -1865,7 +1865,7 @@ void initialize_regression(REGELE* RegEle, std::vector<DATASET>* dataset, int* N
 	std::vector<long double>().swap(RegEle->fit_coeff_t);
 	std::vector<long double>().swap(RegEle->fit_coeff_p);
 	std::vector<long double>().swap(RegEle->fit_coeff_CI_start);
-	std::vector<long double>().swap(RegEle->fit_coeff_CI_end)
+	std::vector<long double>().swap(RegEle->fit_coeff_CI_end);
 	std::vector<int>().swap(RegEle->fit_coeff_porder);
 	std::vector<int>().swap(RegEle->fit_coeff_porder_on_arr);
 
@@ -2984,7 +2984,7 @@ void order_pB(REGELE* RegEle, std::vector<int>* arrange) {
 			}
 		}
 		RegEle->fit_coeff_porderB.push_back(target_index);
-		RegEle->fit_coeff_pordered.push_back(RegEle->fit_coeff_pB[target_index + 1]);
+		RegEle->fit_coeff_porderedB.push_back(RegEle->fit_coeff_pB[target_index + 1]);
 		already_chk[target_index] = true;
 		int find_pos = -1;
 		for (int find_in_arr = 0; find_in_arr < (signed)arrange->size(); find_in_arr++) {
