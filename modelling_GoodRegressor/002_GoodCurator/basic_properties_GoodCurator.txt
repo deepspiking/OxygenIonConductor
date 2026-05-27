@@ -1,25 +1,12 @@
 DataFilenamePrefix(.txt--FormatInTSV;ForDataNameEachLine,PrepareColumn"Name";Otherwise,Ignored)	input_oxygenionconductor
-LogOutputFilename oxygenionconductor_datacuratorlog_Ea.txt
+LogOutputFilename oxygenionconductor_datacuratorlog
 OutputPrecision	20
 NameDuplicateHandling(Ignore-1;TakeMin0;TakeMax1;TakeMostHit2,WorkOnlyWhenColumn"Name"IsPrepared;If2,ProvideMinMaxIncrementForHistogram)	-1
 XSpace	OM	Ave	StdDv	Skew
 InteractXSpace(IfNone,"-")	OM	Ave
 ParseData(*.txt,IfNone,"-") -
 ParseGroup 2
-setY(Name/Min/Max:IfNoLimit,Min/Max=*)	Ea	* *
-SubFilterX(IfNone,"-";{Name/Min/Max:IfNoLimit,Min/Max=*}*NSubFilterX)	-
-Postfix_SamplingAction(TowardsMin0;TowardsMax1)_SamplingFactor
-STOP
-
-DataFilenamePrefix(.txt--FormatInTSV;ForDataNameEachLine,PrepareColumn"Name";Otherwise,Ignored)	input_oxygenionconductor
-LogOutputFilename oxygenionconductor_datacuratorlog_Log10A.txt
-OutputPrecision	20
-NameDuplicateHandling(Ignore-1;TakeMin0;TakeMax1;TakeMostHit2,WorkOnlyWhenColumn"Name"IsPrepared;If2,ProvideMinMaxIncrementForHistogram)	-1
-XSpace	OM	Ave	StdDv	Skew
-InteractXSpace(IfNone,"-")	OM	Ave
-ParseData(*.txt,IfNone,"-") -
-ParseGroup 2
-setY(Name/Min/Max:IfNoLimit,Min/Max=*)	Ea	* *
+setY(Name/Min/Max:IfNoLimit,Min/Max=*)	Ea	*	*	Log10A	*	*
 SubFilterX(IfNone,"-";{Name/Min/Max:IfNoLimit,Min/Max=*}*NSubFilterX)	-
 Postfix_SamplingAction(TowardsMin0;TowardsMax1)_SamplingFactor
 STOP

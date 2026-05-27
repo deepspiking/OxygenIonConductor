@@ -4158,12 +4158,8 @@ void read_strdat(std::vector<STRDAT> * strdat, std::vector<ANADESCRIPTOR>* anade
 	std::getline(readstrdat, sbuf);
 	std::stringstream lcstr;
 	lcstr << sbuf;
-	while (true) {
-		lcstr >> sbuf;
+	while (lcstr >> sbuf) {
 		sdescriptorname->push_back(sbuf);
-		if (lcstr.eof()) {
-			break;
-		}
 	}
 
 	readstrdat >> sbuf;
@@ -4171,12 +4167,8 @@ void read_strdat(std::vector<STRDAT> * strdat, std::vector<ANADESCRIPTOR>* anade
 	lcstr.str("");
 	lcstr.clear();
 	lcstr << sbuf;
-	while (true) {
-		lcstr >> sbuf;
+	while (lcstr >> sbuf) {
 		sitename->push_back(sbuf);
-		if (lcstr.eof()) {
-			break;
-		}
 	}
 
 	std::getline(readstrdat, sbuf);
@@ -6214,7 +6206,7 @@ void process_matdat(std::vector<long double>* zTargetVReg, std::vector<long doub
 
 			if (i >= 0 && i <= Nmat - 1) {
 
-				std::vector<std::string> PostTags;
+					std::vector<std::string> PostTags;
 				if(PostTagNames->size() > 0){ 
 					for (int ipost = 0; ipost < (signed)PostTagNames->size(); ipost++) {
 						PostTags.push_back("");
@@ -6222,17 +6214,13 @@ void process_matdat(std::vector<long double>* zTargetVReg, std::vector<long doub
 					std::stringstream linestream;
 					linestream << linebuf;
 					std::string subbuf;
-					while (true) {
-						linestream >> subbuf;
+					while (linestream >> subbuf) {
 						if (PostTags.size() > 1) {
 							for (unsigned int ii = 1; ii < PostTags.size(); ii++) {
 								PostTags[ii - 1] = PostTags[ii];
 							}
 						}
 						PostTags[PostTags.size() - 1] = subbuf;
-						if (linestream.eof()) {
-							break;
-						}
 					}
 				}
 
@@ -7129,7 +7117,7 @@ void process_matdat(std::vector<long double>* zTargetVReg, std::vector<long doub
 					writeoutput.flush();
 				}
 				else {
-					std::cout << "UseStrName was not identified ... Check StructureListFilename or UseStrName...\n";
+					std::cout << "UseStrName was not identified ... Check StructureListFilename or UseStrName... row=" << i + 1 << " strname=" << objMAT.strname << " composition=" << objMAT.composition << "\n";
 					std::cout.flush();
 				}
 

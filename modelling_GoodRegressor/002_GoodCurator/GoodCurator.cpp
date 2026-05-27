@@ -904,7 +904,7 @@ void read_data(std::vector<DATASET>* predataset, bool* use_dataname, std::string
 	strcpy_s(cmd, "del *.temporary.txt");
 	system(cmd);
 #else
-	strcpy(cmd, "rm *.temporary.txt");
+	strcpy(cmd, "rm -- *.temporary.txt");
 	system(cmd);
 #endif
 
@@ -916,11 +916,11 @@ int main() {
 	
 	read_para();
 	
-	writelog.open(LogOutputFilename, std::ios::binary);
-	writelog << std::fixed << std::setprecision(OutputPrecision);
-
 	for (int iy = 0; iy < (signed)instally.size(); iy++) {
 		predataset.clear();
+		GroupX.clear();
+		column_str.clear();
+		Interfeatures.clear();
 		std::string setY = instally[iy].setY;
 		long double minY = instally[iy].minY;
 		long double maxY = instally[iy].maxY;
@@ -930,6 +930,11 @@ int main() {
 		InputDataFilename.clear();
 		InputDataFilename.push_back(DataFilenamePrefix + ".txt");
 		int DuplicateX = 1;
+
+		writelog.close();
+		writelog.open(LogOutputFilename + "_" + setY + ".txt", std::ios::binary);
+		writelog << std::fixed << std::setprecision(OutputPrecision);
+
 		read_data(&predataset, &use_dataname, &userdefinedName, &Interfeatures, &InputDataFilename, &setY, &XSpace, &InteractXSpace, &GroupX, &limitminY, &limitmaxY, &minY, &maxY, &column_str, &DuplicateX, &NameDuplicateHandling, &Dmin, &Dmax, &Dincrement, &subfilterx, &ParseData, &ParseGroup, &SamplingFactor);
 	}
 
